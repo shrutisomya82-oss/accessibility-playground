@@ -1,6 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { describe, test, expect, afterEach } from "vitest";
+import { render, screen, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ValidatedForm from "./ValidatedForm";
+
+afterEach(() => {
+  cleanup();
+});
 
 describe("ValidatedForm", () => {
   test("shows validation error for invalid email", async () => {
@@ -8,9 +13,7 @@ describe("ValidatedForm", () => {
 
     render(<ValidatedForm />);
 
-    const emailInput = screen.getByRole("textbox", {
-      name: "Email address",
-    });
+    const emailInput = screen.getByLabelText("Email address");
 
     await user.type(emailInput, "invalidemail");
 
@@ -28,9 +31,7 @@ describe("ValidatedForm", () => {
 
     render(<ValidatedForm />);
 
-    const emailInput = screen.getByRole("textbox", {
-      name: "Email address",
-    });
+    const emailInput = screen.getByLabelText("Email address");
 
     await user.type(emailInput, "somya@example.com");
 
